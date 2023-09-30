@@ -3,10 +3,12 @@
 git config user.name "MNTSheridan"
 git config user.email "tran172@sheridancollege.ca"
 '''
-menuMessage = '''
+menuMessage = input('''
 You are currently laid off from your job, you're due for an eviction in 2 weeks and the best thing 
 for you to make ends meet now is to rob a bank. What job are you taking on?
-\nA. Driver\nB. Planner\nC. Robber\nD. Gunner'''
+\nA. Driver\nB. Planner\nC. Robber\nD. Gunner\n\nChoice: ''')
+
+
 def menu():
     menuOption = input(menuMessage)
     characterClass = "Driver" if menuOption == "A" else "Leader" if menuOption == "B" else "Robber" if menuOption =="C" else "Gunner" if menuOption == "D" else None
