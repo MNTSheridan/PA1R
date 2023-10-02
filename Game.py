@@ -3,15 +3,29 @@
 git config user.name "MNTSheridan"
 git config user.email "tran172@sheridancollege.ca"
 '''
-menuMessage = input('''
-You are currently laid off from your job, you're due for an eviction in 2 weeks and the best thing 
-for you to make ends meet now is to rob a bank. What job are you taking on?
-\nA. Driver\nB. Planner\nC. Robber\nD. Gunner\n\nChoice: ''')
+menuMessage = '''
+It is the year 1872, you and your band of cowboys are the wild west's most notorious ciminal organization in the midwest, 
+you and your pals plan for a train robbery... Choose your role!
+\nA. Hijacker, you are responsible with hijacking doors (Unlocking doors are faster with this class)
+\nB. Demoman, you are responsible for opening vaults (Opening container vaults are faster with this class)
+\nC. Robber, you are a responsible for collecting money (Money rewards are higher with this class)
+\nD. Gunman, you are responsible for combating security and cops (Physical power is higher with this class)
+\n\nChoice: '''
 
+classChoiceDict = {
+    "A":"Hijacker",
+    "B":"Demoman",
+    "C":"Robber",
+    "D":"Gunman"
+}
 
 def menu():
     menuOption = input(menuMessage)
-    characterClass = "Driver" if menuOption == "A" else "Leader" if menuOption == "B" else "Robber" if menuOption =="C" else "Gunner" if menuOption == "D" else None
-    if characterClass == None:
+    if menuOption == None:
         print("You better pick an option!")
         menu()
+    else:
+        characterClass = classChoiceDict[menuOption]
+        print(f"You chose {characterClass}! ")
+
+menu()
