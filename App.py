@@ -15,10 +15,10 @@ you and your pals plan for a train robbery... Choose your role!
 \n\nChoice: '''
 
 classChoiceDict = {
-    "A":("Hijacker", (1, 1, 4, 2)),     #8
-    "B":("Robber", (1, 2, 4, 1)),       #8
-    "C":("Gunner", (4, 1, 1, 3)),       #9
-    "D":("Demolitioner", (1, 4, 2, 4))  #11
+    "A":("Hijacker", [1, 1, 4, 2]),     #8
+    "B":("Robber", [1, 2, 4, 1]),       #8
+    "C":("Gunner", [4, 1, 1, 3]),       #9
+    "D":("Demolitioner", [1, 4, 2, 4])  #11
 }
 
 # self.allAttribute = attribute
@@ -27,19 +27,21 @@ classChoiceDict = {
 # self.dexterity = attribute[2]
 # self.intelligence = attribute[3]
 
-characterStatistic = None
+characterAttribute = None
 
 def menu(characterAttribute):
     menuOption = input(menuMessage)
     if menuOption in ("A", "B", "C", "D"):
+        #characterClass is variable that contains the attribute stats of the player
         characterClass = classChoiceDict[menuOption][0]
         print(f"You chose {characterClass}!")
         characterAttribute = Game.playerInfo(classChoiceDict[menuOption][1])
         print(characterAttribute.stat)
-        print(f"Your attribute grades are presented in the order of: \nLethality, Endurance, Dexterity, and Intelligence: {characterAttribute.allAttributes()}")
+        print(f"Your attribute grades are presented in the order of: \nLethality, Endurance, Dexterity, and Intelligence: {characterAttribute.attributeGrade()} \nThose stats will increase/decrease according to how you play the game.")
+    
+
     else:
         print("You better pick an option!")
-        menu(characterStatistic)
+        menu(characterAttribute)
         
-menu(characterStatistic)
-print(characterStatistic)
+menu(characterAttribute)

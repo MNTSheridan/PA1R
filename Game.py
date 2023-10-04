@@ -7,21 +7,17 @@ class playerInfo:
         self.dexterity = attribute[2]
         self.intelligence = attribute[3]
     
-def attributeGrade(self):
-    total = []
-    if self.stat is list:
-        for i in self.stat:
-            total.append("S" if i == 4 else "A" if i == 3 else "B" if i == 2 else "C")
-        return total
-    else:
-        return "S" if self.stat == 4 else "A" if self.stat == 3 else "B" if self.stat == 2 else "C"
+    def attributeGrade(self):
+        total = []
+        if type(self.stat) == list:
+            for i in self.stat:
+                total.append("S" if i == 4 else "A" if i == 3 else "B" if i == 2 else "C")
+            return total
+        else:
+            print("error")
+            return "S" if i == 4 else "A" if i == 3 else "B" if i == 2 else "C"
 
-def allAttributes(attribute):
-    attributeEvaluation = ""
-    for i in attribute:
-        attributeEvaluation += i.attributeGrade()
-
-        
+            
 
 '''
 Lethality as an attribute contributes to how well a class is able to
