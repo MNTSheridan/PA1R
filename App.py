@@ -10,9 +10,9 @@ It is the year 1872, you and your band of cowboys are the wild west's most notor
 you and your pals plan for a train robbery... Choose your role!
 \nA. Hijacker, you are responsible with hijacking doors (Unlocking doors are faster with this class)
 \nB. Robber, you are a responsible for collecting money (Money rewards are higher with this class)
+\nC. Gunner, you are responsible for fending off train security guards.
+\nD. Demolitioner, you are responsible for unlocking vaults and you have enhanced endurance. 
 \n\nChoice: '''
-
-characterAttribute = None
 
 classChoiceDict = {
     "A":("Hijacker", ("B", "B", "S", "C")),
@@ -20,15 +20,17 @@ classChoiceDict = {
     "C":("Gunner", ("S", "C", "C", "S")),
     "D":("Demolitioner", ("C", "S", "B", "A"))
 }
-lethalityA, healthA, dexterityA, intelligenceA
+
+
 def menu():
     menuOption = input(menuMessage)
-    if menuOption == None:
+    if menuOption in ("A", "B", "C", "D"):
+        characterClass = classChoiceDict[menuOption][0]
+        print(f"You chose {characterClass}!")
+        characterAttribute = Game.playerInfo(classChoiceDict[menuOption][1])
+        print(f"Your attribute grades are presented in the order of: \nLethality, Endurance, Dexterity, and Intelligence: {characterAttribute.all}")
+    else:
         print("You better pick an option!")
         menu()
-    else:
-        characterClass = classChoiceDict[menuOption][0]
-        print(f"You chose {characterClass}! ")
-        characterAttribute = Game.playerInfo()
         
 menu()

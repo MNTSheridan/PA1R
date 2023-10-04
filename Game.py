@@ -1,10 +1,13 @@
 #Data & Logic
-Class playerInfo:
-    def __init__(self, lethalityA, enduranceA, dexterityA, intelligenceA):        
-        self.lethality = lethalityA
-        self.endurance = enduranceA
-        self.dexterity = dexterityA
-        self.intelligence = intelligenceA
+class playerInfo:
+    def __init__(self, attribute):        
+        self.all = attribute
+        self.lethality = attribute[0]
+        self.endurance = attribute[1]
+        self.dexterity = attribute[2]
+        self.intelligence = attribute[3]
+
+
         
 
 '''
