@@ -18,9 +18,9 @@ Lethality as an attribute contributes to how well a class is able to
 fend of threats such as security.
 X Grade Lethality allows the class to take down threats in Y turns
 S - 1
-A - 3
-B - 4
-C - Indefinte (They are unable to fend off threats)
+A - 2
+B - 2
+C - 4
 
 Endurance as an attribute contributes to how well a class is able to sustain
 failures/mistakes/physical damage in mission.
@@ -33,9 +33,9 @@ C - 1
 Dexterity as an attribute contributes how fast a class completes a task.
 X Grade Dexterity allows the class to finish tasks in Y turns.
 S - 1
-A - 50% chance of 1 turn 50% chance of 2 turns
-B - 2 turns
-C - 3 turns
+A - 2
+B - 3 turns
+C - 4 turns
 
 Intelligence as an attribute affects the ability of the player to attain their 
 rewards percentage.
