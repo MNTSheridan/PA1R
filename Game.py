@@ -1,7 +1,7 @@
 #Data & Logic
 class playerInfo:
     def __init__(self, attribute):        
-        self.all = attribute
+        self.allAttribute = attribute
         self.lethality = attribute[0]
         self.endurance = attribute[1]
         self.dexterity = attribute[2]
