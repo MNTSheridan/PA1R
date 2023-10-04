@@ -1,15 +1,25 @@
 #Data & Logic
 class playerInfo:
-    def __init__(self, attribute):        
-        self.allAttribute = attribute
+    def __init__(self, attribute):    
+        self.stat = attribute    
         self.lethality = attribute[0]
         self.endurance = attribute[1]
         self.dexterity = attribute[2]
         self.intelligence = attribute[3]
     
-def attributeGrade(attribute):
-    return "S" if attribute == 4 else "A" if attribute == 3 else "B" if attribute == 2 else "C"
+def attributeGrade(self):
+    total = []
+    if self.stat is list:
+        for i in self.stat:
+            total.append("S" if i == 4 else "A" if i == 3 else "B" if i == 2 else "C")
+        return total
+    else:
+        return "S" if self.stat == 4 else "A" if self.stat == 3 else "B" if self.stat == 2 else "C"
 
+def allAttributes(attribute):
+    attributeEvaluation = ""
+    for i in attribute:
+        attributeEvaluation += i.attributeGrade()
 
         
 

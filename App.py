@@ -27,15 +27,19 @@ classChoiceDict = {
 # self.dexterity = attribute[2]
 # self.intelligence = attribute[3]
 
-def menu():
+characterStatistic = None
+
+def menu(characterAttribute):
     menuOption = input(menuMessage)
     if menuOption in ("A", "B", "C", "D"):
         characterClass = classChoiceDict[menuOption][0]
         print(f"You chose {characterClass}!")
         characterAttribute = Game.playerInfo(classChoiceDict[menuOption][1])
-        print(f"Your attribute grades are presented in the order of: \nLethality, Endurance, Dexterity, and Intelligence: {characterAttribute.all}")
+        print(characterAttribute.stat)
+        print(f"Your attribute grades are presented in the order of: \nLethality, Endurance, Dexterity, and Intelligence: {characterAttribute.allAttributes()}")
     else:
         print("You better pick an option!")
-        menu()
+        menu(characterStatistic)
         
-menu()
+menu(characterStatistic)
+print(characterStatistic)
