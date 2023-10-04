@@ -1,3 +1,4 @@
+import Game
 #link to GIT repository: https://github.com/MNTSheridan/PROGassignment1
 #interactivity file
 '''
@@ -11,20 +12,23 @@ you and your pals plan for a train robbery... Choose your role!
 \nB. Robber, you are a responsible for collecting money (Money rewards are higher with this class)
 \n\nChoice: '''
 
+characterAttribute = None
+
 classChoiceDict = {
-    "A":("Hijacker", ("C", "B", "A")),
-    "B":("Robber", ("B", "C", "A")),
-    "C":("Gunner", ("A", "B", "C")),
-    "D":("Demolitioner", ("S"))
+    "A":("Hijacker", ("B", "B", "S", "C")),
+    "B":("Robber", ("C", "B", "A", "B")),
+    "C":("Gunner", ("S", "C", "C", "S")),
+    "D":("Demolitioner", ("C", "S", "B", "A"))
 }
-lethalityA, healthA, dexterityA
+lethalityA, healthA, dexterityA, intelligenceA
 def menu():
     menuOption = input(menuMessage)
     if menuOption == None:
         print("You better pick an option!")
         menu()
     else:
-        characterClass = classChoiceDict[menuOption]
+        characterClass = classChoiceDict[menuOption][0]
         print(f"You chose {characterClass}! ")
-
+        characterAttribute = Game.playerInfo()
+        
 menu()
