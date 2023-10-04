@@ -15,12 +15,17 @@ you and your pals plan for a train robbery... Choose your role!
 \n\nChoice: '''
 
 classChoiceDict = {
-    "A":("Hijacker", ("B", "B", "S", "C")),
-    "B":("Robber", ("C", "B", "A", "B")),
-    "C":("Gunner", ("S", "C", "C", "S")),
-    "D":("Demolitioner", ("C", "S", "B", "A"))
+    "A":("Hijacker", (1, 1, 4, 2)),     #8
+    "B":("Robber", (1, 2, 4, 1)),       #8
+    "C":("Gunner", (4, 1, 1, 3)),       #9
+    "D":("Demolitioner", (1, 4, 2, 4))  #11
 }
 
+# self.allAttribute = attribute
+# self.lethality = attribute[0]
+# self.endurance = attribute[1]
+# self.dexterity = attribute[2]
+# self.intelligence = attribute[3]
 
 def menu():
     menuOption = input(menuMessage)
