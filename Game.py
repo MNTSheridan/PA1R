@@ -6,6 +6,9 @@ class playerInfo:
         self.endurance = attribute[1]
         self.dexterity = attribute[2]
         self.intelligence = attribute[3]
+    
+def attributeGrade(attribute):
+    return "S" if attribute == 4 else "A" if attribute == 3 else "B" if attribute == 2 else "C"
 
 
         
