@@ -82,7 +82,9 @@ def railroadBombMinigame(attributeInformation):
         print(outcomeMessage)
         railroadBombMinigame(characterAttribute)
     elif attemptNumber <= 4:
-        characterAttribute.endurance -= 2
+        print("You have failed this task, you will lose 2 endurance points.")
+        characterAttribute._endurance -= 2
+
         
         
 
