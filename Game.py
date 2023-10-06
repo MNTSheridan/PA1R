@@ -1,16 +1,18 @@
 #Data & Logic
 class playerInfo:
     def __init__(self, attribute):    
-        self.stat = attribute    
-        self.lethality = attribute[0]
-        self.endurance = attribute[1]
-        self.dexterity = attribute[2]
-        self.intelligence = attribute[3]
+        self._stat = attribute    
+        self._lethality = attribute[0]
+        self._endurance = attribute[1]
+        self._dexterity = attribute[2]
+        self._intelligence = attribute[3]
     
+
+    #This method takes in a datastructure which it would want to be a list so that it converts the player's attribute statistics to letter graded data.
     def attributeGrade(self):
         total = []
-        if type(self.stat) == list:
-            for i in self.stat:
+        if type(self._stat) == list:
+            for i in self._stat:
                 total.append("S" if i == 4 else "A" if i == 3 else "B" if i == 2 else "C")
             return total
         else:
