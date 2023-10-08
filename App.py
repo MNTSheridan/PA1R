@@ -12,5 +12,5 @@ import Game
 
 
 Game.menuSection()
-
+Game.minigameSection()
 
