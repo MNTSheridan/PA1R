@@ -106,73 +106,103 @@ def menuSection():
         menuSection()
 
 
-def railroadBombMinigame(attributeInformation):
+def railroadBombMinigame():
     global characterAttribute
     global attemptNumber
     dynamiteAmount = 0
 
-    minigameMessage = input(f'''
-    You are going to a set up explosives, you're going to need to set up 12Kg of dynamite on the tracks within, \n
+    minigameMessage = f'''
+    You are going to a try to force the train to halt, you're going to need to set up 12Kg of dynamite on the tracks within \n
     3 turns. For each dice roll you do, you will get a kilogram per the value that you roll. If you fail to get sufficient amount \n
     of dynamite on the tracks within that timeframe, you will lose 2 points of your endurance attribute, and the game will move on. \n
+    '''
+
+    statusMessage = input(f'''
     (Press A to roll the dice), this is attempt #{attemptNumber}.
     \n\n
     Roll dice: 
-
     ''')
-    print(minigameMessage)
-    if minigameMessage == "A" and attemptNumber < 3 and dynamiteAmount < 12:
-        diceOutcome = random.choice(range(1,6))
+
+
+    print(minigameMessage) if attemptNumber == 1 else None
+    print(statusMessage)
+
+    gameInput = input()
+    if gameInput == "A" and attemptNumber < 3 and dynamiteAmount < 12:
+        diceOutcome = random.choice(range(characterAttribute._dexterity,6))
         dynamiteAmount += diceOutcome
         outcomeMessage = f''' You have set up {diceOutcome}Kg of dynamite to the railroad.\n
-        You have {dynamiteAmount - 12}Kg of dynamite left to add.
+        You have {dynamiteAmount - 12}Kg of dynamite left to add.\n
         '''
         print(outcomeMessage)
-        railroadBombMinigame(characterAttribute)
+        attemptNumber += 1
+        railroadBombMinigame()
     elif attemptNumber >= 3:
         print("You have failed this task, you will lose 2 endurance points.")
         characterAttribute._endurance -= 2
-    elif minigameMessage != "A":
+    elif gameInput != "A":
         print("Try again.")
-        railroadBombMinigame(attributeInformation)
+        railroadBombMinigame()
     elif dynamiteAmount >= 12:
         print("You have sucessfully loaded up the dyanmites.. The train was bombed and stopped in its tracks, you enter the train.")
         characterAttribute._intelligence += 1
         
 
-def securityMinigame(attributeInformation):
+def securityMinigame():
     global characterAttribute
-    global attemptNumber
     
-    dynamiteAmount = 0
+    securityDefeated = 0
+    turnNumber = 1
+    hitForce = 0 # if attemptNumber == 1 else hitForce
+    securityAmount = random.randint(2,3)
 
-    minigameMessage = input(f'''
-    You are going to a set up explosives, you're going to need to set up 12Kg of dynamite on the tracks within, \n
-    3 turns. For each dice roll you do, you will get a kilogram per the value that you roll. If you fail to get sufficient amount \n
-    of dynamite on the tracks within that timeframe, you will lose 2 points of your endurance attribute, and the game will move on. \n
-    (Press A to roll the dice), this is attempt #{attemptNumber}.
+    minigameMessage = f'''
+    Security has been notified about the train being halted, and are now exiting the train to elminate the threat. \n
+    There could be 2-3 security guards entering out the train. If you fail to take down one of the security guards,  \n
+    you will lose the game. To win against a guard, you must be able to get closer to the number 12 in all the rolled dice values than the guard. \n
+    If the hitforce value of both you and the guard are the same, you will still defeat the guard.\n
+    You will be given 3 turns to try to get your hit force as close to 12 as possible. \n
+    If you exceed that force, you won't lose the minigame but you will lose accuracy and your chances of winning.\n
+    (Press A to roll the dice, B to stop rolling the dice and end your turn), this is attempt #{attemptNumber}.
     \n\n
-    Roll dice: 
+    Roll dice: '''
 
-    ''')
-    print(minigameMessage)
-    if minigameMessage == "A" and attemptNumber > 4 and dynamiteAmount < 12:
-        diceOutcome = random.choice(range(1,6))
-        dynamiteAmount += diceOutcome
-        outcomeMessage = f''' You have set up {diceOutcome}Kg of dynamite to the railroad.\n
-        You have {dynamiteAmount - 12}Kg of dynamite left to add.
-        '''
-        print(outcomeMessage)
-        railroadBombMinigame(characterAttribute)
-    elif attemptNumber <= 4:
-        print("You have failed this task, you will lose 2 endurance points.")
-        characterAttribute._endurance -= 2
+    print(minigameMessage) #if attemptNumber == 1 else None
+    gameInput = input()
+
+    while gameInput == "A" and securityDefeated < securityAmount:
+        if turnNumber < 4:
+            statusMessage = '''
+            (Press A to roll the dice) this is attempt #{attemptNumber}.
+            \n\n
+            Roll dice: '''
+            print(statusMessage)
+            diceOutcome = random.choice(range(characterAttribute._lethality,6))
+            hitForce += diceOutcome
+            outcomeMessage = f''' You currently have added {diceOutcome} into your hit force..\n
+            You have {hitForce} amount of hit force.
+            '''
+            print(outcomeMessage)
+            gameInput = input()
+        else:
+            break
+    if attemptNumber <= 4:
+        print("You have failed this task, you failed the Heist.")
+        characterAttribute._endurance -= 4
+    elif gameInput == "B" or turnNumber >= 4:
+        securityHitforce = random.randint(4,11)
+        if abs(hitForce-12) > abs(securityHitforce-12):
+            securityDefeated += 1
+            print(f"You have defeated a guard, {securityAmount - securityDefeated} guards are left for you to complete this task.")
+    elif securityDefeated >= securityAmount:
+        print("You have defeated all security. Moving on to the next task.")
+        characterAttribute._dexterity += 1
+        characterAttribute._intelligence += 1
     elif minigameMessage != "A":
         print("Try again.")
-        railroadBombMinigame(attributeInformation)
-    elif dynamiteAmount >= 12:
-        print("You have sucessfully loaded up the dyanmites.. The train was bombed and stopped in its tracks, you enter the train.")
-        characterAttribute._intelligence += 1
+        securityMinigame()
+
+
 def doorUnlockMinigame(attributeInformation):
     endurance = attributeInformation._endurance
     dexterity = attributeInformation._dexterity
@@ -191,20 +221,34 @@ def moneyGrabMinigame(attributeInformation):
     sufficient amount of dynamite on the tracks within that timeframe, you will die.'''
     print(minigameMessage)
 
-def minigameSection(attributeInformation, gamepathInformation):
-    endurance = attributeInformation._endurance
-    dexterity = attributeInformation._dexterity
+def minigameSection():
+    global characterAttribute
+    global characterGamePath
+    gameStatus = "Neutral"
 
-    for minigame in gamepathInformation:
-        global attemptNumber
-        attemptNumber = 1
-        informationMessage = '''You have:\n
-    {characterAttribute._lethality} lethality.
-    {characterAttribute._endurance} endurance.
-    {characterAttribute._dexterity} dexterity.
-    {characterAttribute._intelligence} intelligence. \n'''
-        print(informationMessage)
-        minigame(characterAttribute)
+    for minigame in characterGamePath:
+        if characterAttribute._endurance > 0:    
+            global attemptNumber
+            attemptNumber = 1
+            informationMessage = '''You have:\n
+        {characterAttribute._lethality} lethality.
+        {characterAttribute._endurance} endurance.
+        {characterAttribute._dexterity} dexterity.
+        {characterAttribute._intelligence} intelligence. \n'''
+            print(informationMessage)
+            minigame(characterAttribute)
+        elif characterAttribute._endurance <= 0:
+            gameStatus = "Lost"
+            break
+        gameStatus = "Won"
+    if gameStatus == "Won":
+        winScenario()
+    elif gameStatus == "Lost":
+        loseScenario()
 
         
+def winScenario():
+    thing = "a"
 
+def loseScenario():
+    thing = "b"
