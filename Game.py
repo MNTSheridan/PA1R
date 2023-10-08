@@ -3,6 +3,7 @@ import Demolitioner, Gunner, Hijacker, Robber
 import random
 
 characterAttribute = None
+characterGamePath = None
 attemptNumber = 1
 
 
@@ -64,18 +65,19 @@ C - 10%
 '''
 
 roleStatConfiguration = {
-    "A":("Hijacker", Hijacker.Attribute),     #8
-    "B":("Robber", Robber.Attribute),       #8
-    "C":("Gunner", Gunner.Attribute),       #9
-    "D":("Demolitioner", Demolitioner.Attribute)  #11
+    "A":("Hijacker", Hijacker.Attribute, Hijacker.gamePath),     #8
+    "B":("Robber", Robber.Attribute, Robber.gamePath),       #8
+    "C":("Gunner", Gunner.Attribute, Gunner.gamePath),       #9
+    "D":("Demolitioner", Demolitioner.Attribute, Demolitioner.gamePath)  #11
 }
 
 def menuSection():
     global characterAttribute
+    global characterGamePath
 
     menuMessage = '''
     It is the year 1872, you are the wild west's most notorious criminal in the Arizona, \n
-    you are running low on cash, and you're going to plan for a train robbery... Choose your role! 
+    you are running low on cash, and you're going join a band of cowboys for a train robbery... Choose your role! 
     \nA. Hijacker, you are responsible with hijacking doors (Unlocking doors are faster with this role)
     \nB. Robber, you are a responsible for collecting money (Money rewards are higher with this role)
     \nC. Gunner, you have an advantage for fending off train security guards.
@@ -89,6 +91,7 @@ def menuSection():
         characterClass = roleStatConfiguration[menuOption][0]
         print(f"You chose {characterClass}!")
         characterAttribute = playerInfo(roleStatConfiguration[menuOption][1])
+        characterGamePath = playerInfo(roleStatConfiguration[menuOption][2])
 
         statMessage = f'''"Your attribute grades are presented in the order of: \n
         Lethality, Endurance, Dexterity, and Intelligence: {characterAttribute.attributeGrade()} \n
@@ -106,8 +109,43 @@ def menuSection():
 def railroadBombMinigame(attributeInformation):
     global characterAttribute
     global attemptNumber
-    attemptNumber += 1
     dynamiteAmount = 0
+
+    minigameMessage = input(f'''
+    You are going to a set up explosives, you're going to need to set up 12Kg of dynamite on the tracks within, \n
+    3 turns. For each dice roll you do, you will get a kilogram per the value that you roll. If you fail to get sufficient amount \n
+    of dynamite on the tracks within that timeframe, you will lose 2 points of your endurance attribute, and the game will move on. \n
+    (Press A to roll the dice), this is attempt #{attemptNumber}.
+    \n\n
+    Roll dice: 
+
+    ''')
+    print(minigameMessage)
+    if minigameMessage == "A" and attemptNumber < 3 and dynamiteAmount < 12:
+        diceOutcome = random.choice(range(1,6))
+        dynamiteAmount += diceOutcome
+        outcomeMessage = f''' You have set up {diceOutcome}Kg of dynamite to the railroad.\n
+        You have {dynamiteAmount - 12}Kg of dynamite left to add.
+        '''
+        print(outcomeMessage)
+        railroadBombMinigame(characterAttribute)
+    elif attemptNumber >= 3:
+        print("You have failed this task, you will lose 2 endurance points.")
+        characterAttribute._endurance -= 2
+    elif minigameMessage != "A":
+        print("Try again.")
+        railroadBombMinigame(attributeInformation)
+    elif dynamiteAmount >= 12:
+        print("You have sucessfully loaded up the dyanmites.. The train was bombed and stopped in its tracks, you enter the train.")
+        characterAttribute._intelligence += 1
+        
+
+def securityMinigame(attributeInformation):
+    global characterAttribute
+    global attemptNumber
+    
+    dynamiteAmount = 0
+
     minigameMessage = input(f'''
     You are going to a set up explosives, you're going to need to set up 12Kg of dynamite on the tracks within, \n
     3 turns. For each dice roll you do, you will get a kilogram per the value that you roll. If you fail to get sufficient amount \n
@@ -129,21 +167,12 @@ def railroadBombMinigame(attributeInformation):
     elif attemptNumber <= 4:
         print("You have failed this task, you will lose 2 endurance points.")
         characterAttribute._endurance -= 2
-
-        
-        
-
-def securityMinigame(attributeInformation):
-    endurance = attributeInformation._endurance
-    lethality = attributeInformation._lethality
-    minigameMessage = '''
-    You are going to a set up explosives, you're going to need to set up 12Kg of dynamite on the tracks within, 
-    3 turns. For each dice roll you do, you will get a kilogram per the value that you roll. If you fail to get 
-    sufficient amount of dynamite on the tracks within that timeframe, you will die.
-
-    '''
-    print(minigameMessage)
-
+    elif minigameMessage != "A":
+        print("Try again.")
+        railroadBombMinigame(attributeInformation)
+    elif dynamiteAmount >= 12:
+        print("You have sucessfully loaded up the dyanmites.. The train was bombed and stopped in its tracks, you enter the train.")
+        characterAttribute._intelligence += 1
 def doorUnlockMinigame(attributeInformation):
     endurance = attributeInformation._endurance
     dexterity = attributeInformation._dexterity
@@ -162,14 +191,20 @@ def moneyGrabMinigame(attributeInformation):
     sufficient amount of dynamite on the tracks within that timeframe, you will die.'''
     print(minigameMessage)
 
-def minigameSection(attributeInformation):
+def minigameSection(attributeInformation, gamepathInformation):
     endurance = attributeInformation._endurance
     dexterity = attributeInformation._dexterity
 
-    roundOne = random.choice([doorUnlockMinigame(attributeInformation)]* 3 + [railroadBombMinigame(attributeInformation)])
-    roundTwo = random.choice([doorUnlockMinigame(attributeInformation)]* 3 + [securityMinigame(attributeInformation)])
-    roundThree = [moneyGrabMinigame(attributeInformation)]
-    minigameSelection = [roundOne, roundTwo, roundThree]
-    for minigame in minigameSelection:
+    for minigame in gamepathInformation:
+        global attemptNumber
+        attemptNumber = 1
+        informationMessage = '''You have:\n
+    {characterAttribute._lethality} lethality.
+    {characterAttribute._endurance} endurance.
+    {characterAttribute._dexterity} dexterity.
+    {characterAttribute._intelligence} intelligence. \n'''
+        print(informationMessage)
         minigame(characterAttribute)
+
+        
 
