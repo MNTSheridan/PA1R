@@ -226,7 +226,7 @@ def doorUnlockMinigame():
     You need to unlock {doorsLocked} doors to get into the vault, guess the correct digit for each door to win, you get three tries per door but if you fail to open them, you will lose one intelligence attribute point and the game will move on.
     '''
     print(minigameMessage)
-    while attemptNumber <= 3 and doorsUnlocked < doorsLocked:
+    while attemptNumber <= 3 and doorsUnlocked <= doorsLocked:
         statusMessage = f'''
         You are trying to unlock door no.{doorsUnlocked+1}, try to guess the one digit password! (1-6)
         '''
@@ -235,7 +235,7 @@ def doorUnlockMinigame():
         if gameInput == doorPass:
             print("You have unlocked the door!, onto the next one.")
             doorsUnlocked+=1
-            attemptNumber == 1
+            attemptNumber = 1
             doorPass = random.randint(1,6)
         elif gameInput < doorPass:
             print("While trying to unlock the door you feel that your guess is lower than the door's password.")
@@ -263,7 +263,7 @@ def moneyGrabMinigame():
     '''
 
     print(minigameMessage)
-    while attemptNumber >= characterAttribute._dexterity:
+    while attemptNumber <= characterAttribute._dexterity:
         statusMessage = f'''
         Press A to rob money, you have {abs(characterAttribute._dexterity-attemptNumber)} turns left.
         '''
@@ -275,6 +275,7 @@ def moneyGrabMinigame():
             print(f"You have stolen ${moneyGain}!")
         elif gameInput != "A":
             print("Try again.")
+            attemptNumber+=1
     moneyStolen = moneyHeld
     print(f"You have stolen about ${moneyHeld}!!!")
     
@@ -288,8 +289,8 @@ def gamePathConfiguration(miniGame):
         securityMinigame()
     elif miniGame == "doorUnlockMinigame":
         doorUnlockMinigame()
-    elif miniGame == "doorUnlockMinigame":
-        doorUnlockMinigame()
+    elif miniGame == "moneyGrabMinigame":
+        moneyGrabMinigame()
 
 def minigameSection():
     global characterAttribute
