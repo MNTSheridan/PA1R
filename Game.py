@@ -273,9 +273,9 @@ def moneyGrabMinigame():
             moneyGain = random.randint(1000,1500)
             moneyHeld += moneyGain
             print(f"You have stolen ${moneyGain}!")
+            attemptNumber+=1
         elif gameInput != "A":
             print("Try again.")
-            attemptNumber+=1
     moneyStolen = moneyHeld
     print(f"You have stolen about ${moneyHeld}!!!")
     
