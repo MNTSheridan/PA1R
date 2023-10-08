@@ -203,18 +203,16 @@ def securityMinigame():
         securityMinigame()
 
 
-def doorUnlockMinigame(attributeInformation):
-    endurance = attributeInformation._endurance
-    dexterity = attributeInformation._dexterity
+def doorUnlockMinigame():
+    global characterAttribute
     minigameMessage = '''
     You are going to a set up explosives, you're going to need to set up 12Kg of dynamite on the tracks within, 
     3 turns. For each dice roll you do, you will get a kilogram per the value that you roll. If you fail to get 
     sufficient amount of dynamite on the tracks within that timeframe, you will die.'''
     print(minigameMessage)
 
-def moneyGrabMinigame(attributeInformation):
-    endurance = attributeInformation._endurance
-    dexterity = attributeInformation._dexterity
+def moneyGrabMinigame():
+    global characterAttribute
     minigameMessage = '''
     You are going to a set up explosives, you're going to need to set up 12Kg of dynamite on the tracks within, 
     3 turns. For each dice roll you do, you will get a kilogram per the value that you roll. If you fail to get 
