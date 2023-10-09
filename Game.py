@@ -1,13 +1,16 @@
-#Data & Logic
+#Data & Logic file
+# Import the character classes and required libraries
 import Demolitioner, Gunner, Hijacker, Robber
 import random
 
+
+# Initialize global variables
 characterAttribute = None
 characterGamePath = None
-moneyStolen = None
+moneyStolen = 0
 attemptNumber = 1
 
-
+# Define the playerInfo class to store player attributes
 class playerInfo:
     def __init__(self, attribute):    
         self._stat = attribute    
@@ -17,31 +20,31 @@ class playerInfo:
         self._intelligence = attribute[3]
     
 
-    #This method takes in a datastructure which it would want to be a list so that it converts the player's attribute statistics to letter graded data.
+    # Method to converts the items in datastructures and grades them via letter
     def attributeGrade(self):
         total = []
         if type(self._stat) == list:
             for i in self._stat:
-                total.append("S" if i == 4 else "A" if i == 3 else "B" if i == 2 else "C")
+                total.append("S" if i >= 4 else "A" if i == 3 else "B" if i == 2 else "C")
             return total
         else:
             print("error")
-            return "S" if i == 4 else "A" if i == 3 else "B" if i == 2 else "C"
+            return "S" if i >= 4 else "A" if i == 3 else "B" if i == 2 else "C"
 
             
 
 '''
 Lethality as an attribute contributes to how well a class is able to
 fend of threats such as security.
-X Grade Lethality allows the class to take down threats in Y turns
-S - 1
-A - 2
+X Grade Lethality gives the player minimum hit force of Y.
+S - 4
+A - 3
 B - 2
-C - 4
+C - 1
+C grade Lethality will give the player a minimum hitforce of 1. 
 
 Endurance as an attribute contributes to how well a class is able to sustain
 failures/mistakes/physical damage in mission.
-X Grade Endurance allows the class to sustain failure in completing a task Y times
 S - 4
 A - 3
 B - 2
@@ -226,7 +229,7 @@ def doorUnlockMinigame():
     You need to unlock {doorsLocked} doors to get into the vault, guess the correct digit for each door to win, you get three tries per door but if you fail to open them, you will lose one intelligence attribute point and the game will move on.
     '''
     print(minigameMessage)
-    while attemptNumber <= 3 and doorsUnlocked <= doorsLocked:
+    while attemptNumber <= 3 and doorsUnlocked < doorsLocked:
         statusMessage = f'''
         You are trying to unlock door no.{doorsUnlocked+1}, try to guess the one digit password! (1-6)
         '''
@@ -263,7 +266,7 @@ def moneyGrabMinigame():
     '''
 
     print(minigameMessage)
-    while attemptNumber <= characterAttribute._dexterity:
+    while attemptNumber < characterAttribute._dexterity:
         statusMessage = f'''
         Press A to rob money, you have {abs(characterAttribute._dexterity-attemptNumber)} turns left.
         '''
@@ -276,8 +279,8 @@ def moneyGrabMinigame():
             attemptNumber+=1
         elif gameInput != "A":
             print("Try again.")
-    moneyStolen = moneyHeld
-    print(f"You have stolen about ${moneyHeld}!!!")
+    moneyStolen += moneyHeld
+    print(f"You have stolen ${moneyHeld} for this vault!")
     
 
     
@@ -327,7 +330,7 @@ def winScenario():
     print(f"You have had a SUCESSFUL HEIST!, you have contributed ${moneyStolen} in the pot money for the heist.")
     print(f"which contains a total of ${crewMoney+moneyStolen} !!")
     finalEarnings = (crewMoney+moneyStolen)*characterAttribute._intelligence/10
-    print(f"Since you have {characterAttribute._stat.attributeGrade()[3]} level intelligence, you have won {characterAttribute*10}% of the earnings!")
+    print(f"Since you have {characterAttribute.attributeGrade()[3]} level intelligence, you have won {characterAttribute._intelligence*10}% of the earnings!")
     print(f"Which is ${finalEarnings}!!!!!! Congratulations!! Restart the program to play again.")
 
 def loseScenario():
