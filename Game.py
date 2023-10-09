@@ -1,4 +1,16 @@
 #Data & Logic file
+
+
+'''
+This Python script serves as the core logic for a text-based train robbery game. It imports character classes, initializes global
+ variables for the player's attributes and progress, and defines a playerInfo class to manage character statistics. The script 
+ also includes various minigames like bomb planting, security encounters, door unlocking, and money grabbing. Players choose a 
+ role, each with unique attributes, and navigate through a predefined path of minigames, with success or failure affecting their
+ character's attributes. The game concludes with a win or lose scenario based on the player's performance, offering an engaging 
+ and interactive experience.
+
+'''
+
 # Import the character classes and required libraries
 import Demolitioner, Gunner, Hijacker, Robber
 import random
@@ -69,6 +81,8 @@ C - 10%
 
 '''
 
+# dictionary simplifies character selection in the game, mapping player choices (A, B, C, D) to their unique attributes
+# and game progression paths, enhancing gameplay customization and variety.
 roleStatConfiguration = {
     "A":("Hijacker", Hijacker.Attribute, Hijacker.gamePath),     #8
     "B":("Robber", Robber.Attribute, Robber.gamePath),       #8
@@ -78,6 +92,11 @@ roleStatConfiguration = {
 
 
 def menuSection():
+    '''
+    Initialize the game menu, allowing the player to choose their character role
+    and displaying their starting attribute statistics.
+    '''
+
     global characterAttribute
     global characterGamePath
 
@@ -113,6 +132,11 @@ def menuSection():
 
 
 def railroadBombMinigame():
+    '''
+    Simulates the railroad bombing minigame, where the player must strategically roll dice to set dynamite on the tracks.
+    The player aims to accumulate enough dynamite within five turns to halt the train. Failure results in attribute penalties.
+    '''
+
     global characterAttribute
     global attemptNumber
     dynamiteAmount = 0
@@ -156,6 +180,11 @@ def railroadBombMinigame():
         
 
 def securityMinigame():
+    '''
+    Implements the security confrontation minigame, where the player faces off against security guards.
+    The player rolls dice to build a hit force and defeat security guards. The accuracy attribute influence success.
+
+    '''
     global characterAttribute
     global attemptNumber
     securityDefeated = 0
@@ -220,6 +249,11 @@ def securityMinigame():
 
 
 def doorUnlockMinigame():
+    '''
+    Represents the door unlocking minigame, where the player must guess a one-digit password to progress.
+    The player has three attempts per door, with failure resulting in attribute penalties and progression consequences.
+    '''
+
     global characterAttribute
     global attemptNumber
     doorsLocked = random.randint(1,3)
@@ -256,6 +290,10 @@ def doorUnlockMinigame():
 
 
 def moneyGrabMinigame():
+    '''
+    Models the money grabbing minigame, where the player enters a vault and attempts to steal money.
+    The player has a limited number of turns, based on their dexterity attribute, to accumulate money.
+    '''
     global characterAttribute
     global attemptNumber
     global moneyStolen
@@ -283,9 +321,12 @@ def moneyGrabMinigame():
     print(f"You have stolen ${moneyHeld} for this vault!")
     
 
-    
-
 def gamePathConfiguration(miniGame):
+    '''
+    Determines the flow of the game based on the selected minigame and manages gameplay progression.
+    This function calls the appropriate minigame function based on the chosen path in string form of the parameter, advancing the game accordingly.
+
+    '''
     if miniGame == "railroadBombMinigame":
         railroadBombMinigame()
     elif miniGame == "securityMinigame":
@@ -296,6 +337,22 @@ def gamePathConfiguration(miniGame):
         moneyGrabMinigame()
 
 def minigameSection():
+    """
+    Manages the sequence of minigames in the game, tracking the player's attributes, progress, and game outcome.
+    This function iterates through the minigames specified for the player's role, updating attributes and checking the game status.
+    
+    Throughout the sequence of minigames, this function modifies global variables such as characterAttribute, characterGamePath, attemptNumber, and moneyStolen.
+    
+    - characterAttribute: Represents the player's attributes, including lethality, endurance, dexterity, and intelligence. These attributes change based on the player's performance in the minigames, affecting their capabilities in subsequent stages.
+    - characterGamePath: Contains the order of minigames specific to the player's chosen role, determining the path they follow in the game.
+    - attemptNumber: Keeps track of the number of attempts or turns the player has in each minigame, affecting their chances of success.
+    - moneyStolen: Records the cumulative amount of money stolen by the player during the heist. This total impacts the player's final earnings.
+
+    The modifications to these global variables influence the player's progress and potential success or failure in the game. 
+    If attributes like endurance reach critically low levels, the player may lose the game. Conversely, successful completion 
+    of minigames can lead to victory, affecting the final outcome.
+    """
+
     global characterAttribute
     global characterGamePath
     gameStatus = "Neutral"
@@ -326,6 +383,12 @@ def minigameSection():
 
         
 def winScenario():
+    '''
+    Handles the scenario when the player successfully completes all minigames, leading to a heist victory.
+    This function calculates the player's final earnings based on the cumulative money stolen and the player's intelligence attribute.
+    It then prints a victory message, displaying the earnings and the player's intelligence-based bonus percentage.
+    '''
+
     crewMoney = random.randint(3000,5000)
     print(f"You have had a SUCESSFUL HEIST!, you have contributed ${moneyStolen} in the pot money for the heist.")
     print(f"which contains a total of ${crewMoney+moneyStolen} !!")
@@ -334,4 +397,9 @@ def winScenario():
     print(f"Which is ${finalEarnings}!!!!!! Congratulations!! Restart the program to play again.")
 
 def loseScenario():
+    '''Handles the scenario when the player fails the heist due to excessive mistakes, leading to defeat.
+
+    This function displays a message informing the player that they have failed the heist due to making multiple mistakes.
+    It prompts the player to restart the program to play again.'''
+
     print("Unfortunately you have failed the heist due to making numerous mistakes, leading your teammembers to kick you out of the event. Restart the program to play again.")
